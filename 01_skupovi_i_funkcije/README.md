@@ -4,7 +4,7 @@ Svakom programeru je jasna povezanost matematike i programiranja. U funkcionalno
 
 ## Skupovi
 
-Pojam *skupa* je jedan od najsnovnijih pojmova matematike. Štaviše, ovaj pojam je prisutan i usvakdnevnom životu, i njime označavamo kolekciju objekata. Ipak, *teorija skupova*, matematička oblast koja se bavi skupovima, je mlada oblast matematike. Može se reći da ova teorija nastala krajem XIX veka u radovima [Georga Kantora](https://en.wikipedia.org/wiki/Georg_Cantor) i [Johana Dirihlea](https://en.wikipedia.org/wiki/Peter_Gustav_Lejeune_Dirichlet). Kantorova teorija skupova, kako je danas nazivamo, je brzo našla primenu u oblasti matematičke analize. Uz pomoć teorije skupova, opisana su neka fundamentalna svojstva skupa realnih brojeva, i uspostavljena je hijerarhija između razlčičitih beskonačnosti.
+Pojam *skupa* je jedan od najsnovnijih pojmova matematike. Štaviše, ovaj pojam je prisutan i u svakdnevnom životu i njime označavamo kolekciju objekata. Ipak, *teorija skupova*, matematička oblast koja se bavi skupovima, je mlada oblast matematike. Može se reći da ova teorija nastala krajem XIX veka u radovima [Georga Kantora](https://en.wikipedia.org/wiki/Georg_Cantor) i [Johana Dirihlea](https://en.wikipedia.org/wiki/Peter_Gustav_Lejeune_Dirichlet). Kantorova teorija skupova, kako je danas nazivamo, je brzo našla primenu u oblasti matematičke analize. Uz pomoć teorije skupova, opisana su neka fundamentalna svojstva skupa realnih brojeva, i uspostavljena je hijerarhija između razlčičitih beskonačnosti.
 
 U tadašnjoj teoriji skupova, moge stvari su uzimane zdravo-za-gotovo. Tako je, na primer, Kantorova teorija, dozvoljavala definisanje skupova iskazima poput sledećeg *`x` pripada skupu `S` ako i samo ako važi `P(x)`.*
 
@@ -45,7 +45,7 @@ Dakle, funkcija je zapravo pridruživanje elemenata domena elementima kodomena. 
 + ako je `X` prazan skup tada postoji jedinstvena funkcija iz `X` u proizvoljan skup `Y`. Ovu funkciju nazivamo *prazna funkcija*. Ona ne uzima argumente, niti daje vrednosti.
 + ako `X` nije prazan skup, a `Y` jeste prazan skup, tada ne postoji funkcija tipa `X → Y`. Jer u suprotnom, nekom elementu `x` iz `X` bi mora biti pridružen element `y` iz `Y` što je nemoguće.
 
-Funkcije između skupova brojeva najčešće zadajemo analitičkim izrazima. Ponekad funkciju i zadajemo razdvanjem na slučajeve u zavisnosti od argumenta. Na primer, funkcija `abs: ℝ → ℝ` može se definisati:
+Funkcije između skupova brojeva najčešće zadajemo analitičkim izrazima. Ponekad funkciju i zadajemo razdvajanjem na slučajeve u zavisnosti od argumenta. Na primer, funkcija `abs: ℝ → ℝ` može se definisati:
 
 ```
         ⎧  x, ako je x ≥ 0 
@@ -87,7 +87,7 @@ int sum (int a, int b) {
 }
 ```
 
-Iako na prci pogled jednake, funkcija napisana u `C` jeziku neće vretiti uvek sumu svojih argumenata. Njena preciznost je ograničena dužinom procesorske reči računara na kom se izvršava, i za dovoljno velike vrednosti argumenta, može doći do ograničenja. Slično navedenom harderverskom ograničenju, neke funkcije su ograničene nedostatkom radne memorije. Naravno, kada govorimo o matematičoj definiciji funkicija, ovakva ograničenja nas mnogo ne interesuju.
+Iako na prvi pogled jednake, funkcija napisana u `C` jeziku neće vratiti uvek sumu svojih argumenata. Njena preciznost je ograničena dužinom procesorske reči računara na kom se izvršava, i za dovoljno velike vrednosti argumenta, može doći do ograničenja. Slično navedenom harderverskom ograničenju, neke funkcije su ograničene nedostatkom radne memorije. Naravno, kada govorimo o matematičoj definiciji funkicija, ovakva ograničenja nas mnogo ne interesuju.
 
 Međutim, moderni računari su izuzetno moćni, pa često možemo u praksi da zanemarimo hardverska ograničenja. Pogledajmo zato drugu razliku.
 
