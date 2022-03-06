@@ -5,6 +5,7 @@ U ovom repozitorijumu se nalazi se materijal za časove funkcionalnog programira
 ## Časovi
 
  1. [Skupovi i funkcije](./01_skupovi_i_funkcije/)
+ 2. [Lambda račun](./02_lambda_racun/)
 
 ## Autor
 

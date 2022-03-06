@@ -288,9 +288,11 @@ F X Y → (λx.λy.y) X Y → (λy.y) Y → Y
 
 Logičke veznike takođe definišemo kao kombinatore:
 
+```
 ¬ &≡ λx.x F T
 ∧ &≡ λx.λy.x y F
 ∨ &≡ λx.λy.x T y
+```
 
 Lako se proverava da za ovako definisane kombinatore važe odgovarajuće relacije:
 
