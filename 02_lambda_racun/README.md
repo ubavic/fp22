@@ -71,7 +71,6 @@ Kao što pri radu sa aritmetičkim izrazima možemo izostaviti neke zagrade, tak
 2. **Aplikacija lambda izraza je levo-asocijativna**: umesto `((M N) P)` pišemo `(M N P)`
 3. **Apstrakcija je desno asocijativna**: umesto `λx.(λy.M)` pišemo `λx.λy.M`
 4. **Aplikacija ima veći prioritet u odnosu na apstrakciju**: umesto `λx.(M N)` pišemo `λx.M N`.
-\end{enumerate}
 
 Osim navedenih pravila sa zagradama, postoji još jedno pravilo koje skraćuje zapis:
 
@@ -126,7 +125,7 @@ Relacija `=` jeste relacije ekvivlencije, odnosno važi:
 
 Svaki izraz oblika `(λx.M) N` nazivamo *redeks*. Proces zamene redeksa `(λx.M) N` s izrazom `M [N/x]` nazivamo *kontrakcija*.
 
-Ako izraz `P` sadrži redeks `(λx.M) N`, tada kontrakcijom redeksa  `(λx.M) N` dobijamo novi lambda izraz `P'`. Ovaj postupak nazivamo *beta redukcija*.
+Ako izraz `P` sadrži redeks `(λx.M) N`, tada kontrakcijom redeksa `(λx.M) N` dobijamo novi lambda izraz `P'`. Ovaj postupak nazivamo *beta redukcija*.
 
 Ako se od `P` u konačno mnogo redukcija može dobiti `P'` tada pišemo `P → P'`.
 
@@ -259,7 +258,7 @@ Postavlja se pitanje, kako u terminima lambda računa formulisati pojmove tačno
 Odgovor leži u izrazu `if A then X else Y.` Kao što smo rekli, za ovakav izraz važi:W
 
 ```
-if ⊤ then  X else Y = X
+if ⊤ then X else Y = X
 if ⊥ then X else Y = Y
 ```
 
