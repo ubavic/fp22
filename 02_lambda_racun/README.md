@@ -341,4 +341,4 @@ Svesti naredne izraze na normalnu formu:
 + `(λxy.x y y) (λu.u y x)`
 + `(λxyz.x z (y z)) ((λxy.y x) u) ((λxy.y x) v) w`
 
-Navesti jedan lambda izraz `M` koji nema normalnu formu. Da li izraz ``(λx.c) M` ima normalnu formu?
+Navesti jedan lambda izraz `M` koji nema normalnu formu. Da li izraz `(λx.c) M` ima normalnu formu?
