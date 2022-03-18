@@ -61,8 +61,8 @@ Kompozicija funkcija je asocijativna operacija, odnosno važi `(h ∘ g) ∘ f =
 
 Ako je `f: X → Y` tada za `f` kažemo da je:
 
-+ **surjekcija** ako za svako `y ∈ Y` postoji `x ∈ X` takvo da je `f(x) = y`.
-+ **injekcija** ako iz `f(x₁) = f(x₂)` sledi `x₁ = x₂`.
++ **surjekcija** (NA) ako za svako `y ∈ Y` postoji `x ∈ X` takvo da je `f(x) = y`.
++ **injekcija** (1-1) ako iz `f(x₁) = f(x₂)` sledi `x₁ = x₂`.
 + **bijekcija** ako je surjekcija i injekcija.
 
 Ako je funckija `f: X → Y` bijekcija, tada postoji funkcija `F: Y → X` za koju važi da je `F ∘ f = idX` i `f ∘ F = idY`. Funkciju `F` nazivamo inverznom funkcijom funkcije `f` i obeležavamo je sa `f⁻¹`. Funkcija `f⁻¹` je takođe bijekcija i važi `(f⁻¹)⁻¹ = f`.
@@ -122,7 +122,11 @@ U računarstvu za funkciju kažemo da je *čista* (eng. *pure*) ako zavisi samo 
 ## Zadaci
 
 1. Neka su `X` i `Y` konačni skupovi, i neka važi `|X|=n` i `|Y|=m`. Koliko je `|X ⊔ Y|`, a koliko `|X × Y|`?
+1. Neka su dati skupovi `A = {1}` i `B = {{1}, {{1}}}`. Odrediti `A ∩ B` i `A × B`. Da li važi `A ∈ B`? Da li važi `A ⊆ B`?
 1. Ako je `X = {1, 2, 3, 4, 5, 6, 7, 8}` a `Y = {a, b, c, d, e, f}`, naći `(X × Y) ∩ (Y × X)`.
+1. Neka su dati skupovi `A = {1, 2, 3}`, `B = {a, b}` i `C = {△, □}`. Naći skup `(A × B)× C`. Da li postoji skup `X` takav da je `A × X = {(1, 1), (1, b), (2, 1), (2, b), (3, 1), (3, b)}`?
 1. Naći skup `A` takav da važi `A ∩ ℕ = ∅` i `A ∪ ℕ = ℕ`
 1. Naći primer funkcija `f` i `g` takvih da je `f ∘ g = g ∘ f`.
 1. Naći primer funkcije `f` takve da je `f = f ∘ f = f ∘ f ∘ f = ...`
+1. Odrediti sva preslikavanja (sve funkcije) skupa `A = {1, 2, 3}` u skup `B = {a, b}` koja su NA. Koja od tih preslikavanja su 1-1?
+1. Neka je `S` skup svih duži u ravni, a `P` skup svih tačaka te ravni i neka je `f: S → P` definisano tako da se svakoj duži pridruži središte te duži. Da li je `f` 1-1 i NA?
