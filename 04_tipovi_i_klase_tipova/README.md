@@ -186,16 +186,102 @@ True
 > True `nili` False
 False
 ```
-
-### Tipske promenljive 
-
-### Kompozicija funkcija
-
 ## Algebarski tipovi podataka
 
-### Sume
+Već smo uspostavili mnogo analogija između matematičkog pojma *skup* i programerskog pojma *tip*. Na početku kursa smo videli da je sa skupovima moguće vršti neke operacije kao što su presek, unija, razlika, Dekartov proizvod itd... Sada ćemo se upoznati sa dve tipske operacije, operacije koje od tipova prave nove tipove. Te dve operacije će odgovarati operacijama unije i Dekartovog proizvoda. Kao što ćemo videti, postoji izvesna analogija između ovih operacija i operacija sabiranja i množenja prirodnih brojeva, zbog čega ovu oblast nazivamo *algebra tipova*.
 
-### Proizvodi
+### Trivijalna konstrukcija
+
+Pre nego što pređemo na sumu i proizvod, pogledajmo jednu trivijalnu konstrukciju. U pitanju je pravljenje novog tipa koji sadrži samo jedan, već kreirani, tip.
+
+```haskell
+data Temperatura = Temp Int
+  deriving Show
+```
+
+*Za sada samo postavljajte `deriving Show` nakon definicije. Kasnije ćemo objasniti šta nam ova linija omogućava.*
+
+Navedenom linijom smo konstruisali novi tip `Temperatura`. Svaka vrednost ovog tipa sadrži samo jednu vrednost tipa `Int`. U gornjem izrazu `Temp` je *konstruktor*. Konstruktori su funkcije uz pomoć kojih konstruišemo vrednosti novog tipa. U našem slučaju, konstruktor `Temp` ima tip `Int -> Temperatura`.
+
+Konstruktori se takođe koriste i za dekonstrukciju tipova. Na primer, ako želimo da konstrušemo funkciju koja nam "oslobađa" `Int` iz tipa `Temperatura`, to možemo učiniti ovako:
+
+```haskell
+uInt :: Temperatura -> Int
+uInt (Temp x) = x
+```
+
+Kako znamo da vrednost tipa `Temperatura` mora biti oblika `(Temp x)`, možemo upotrebiti *pattern-matching* da oslobodimo vrednost `x`.
+
+```
+> temperaturaVode = Temp 20
+> uInt temperaturaVode
+20
+```
+
+### Proizvod
+
+Proizvod tipova odgovara Dekartovom proizvodu skupova. Proizvod tipova u Haskelu se jednostavno konstruiše: dovoljno je nakon konstuktora navesti više tipova.
+
+Na primer, vektor dvodimenzionalne ravni možemo definsati kao proizvod tipova `Float` i `Float` na sledeći način:
+
+```haskell
+data Vektor2D = Vektor Float Float
+  deriving Show
+```
+
+Sada ponovo u funkcijama možemo koristiti *pattern matching*:
+
+```
+zbirVektora :: Vektor -> Vektor -> Vektor
+zbirVekotra (Vektor x y) (Vektor z w) = Vektor (x + z) (w + z)
+```
+
+Naravno ne moramo koristiti iste tipove u proizvodu niti ih mora biti samo dva. Sledeći tip prestavlja jednu osobu (njeno ime, godine, i to da li je državljanin Srbije)
+
+```haskell
+data Osoba = Osoba [Char] Int Bool
+  deriving Show
+```
+
+Navedeni primer demonstira da je moguće da tip i konstruktor imaju isto ime (ovo se često koristi u Haskel kodovima).
+### Suma
+
+Suma dva tipa `A` i `B` je tip koji sadrži sve vrednosti koje poseduju tipovi `A` i `B`. Suma tipova odgovara uniji dva skupa stim što se uvek smatra da je ta unija disjunktna.
+
+Suma tipova se vrši postavljanjem vertikalne crte između tipova. Na primer:
+
+```haskell
+data SlovoIliBroj = Slovo Char | Broj Int
+    deriving Show
+```
+
+Ovim smo definisali tip koji možemo da shvatimo kao skup sačinjen od svih slova i brojeva.
+
+Da bi smo radili sa sumama, ponovo ćemo koristit *pattern matching*:
+
+```haskell
+daLiJeSlovo :: SlovoIliBroj -> Bool
+daLiJeSlovo (Slovo x) = True
+daLiJeSlovo (Broj x) = False
+```
+
+Kao i u slučaju proizvoda tipova, moguće je "sabrati" više tipova od jednom. Na primer sledeći tip označava dužinu u različitim mernim jednicama
+
+```
+data Duzina = Metar Float | Milja Float | SvetlosnaGodina Float 
+```
+
+
+### Jedinični tip
+
+
+### Prazan tip
+
+
+### Bonus: Stepenovanje
+
+
+### Algebra tipova
 
 ## Vrste
 
@@ -212,6 +298,12 @@ False
 ### Klasa Read
 
 ## Zadaci
+
+1. Funkcija `slikaj` prihvata funkciju tipa `a -> b` i jedan niz tipa `[a]`, a vraća niz tipa `[b]` koji je nastao preslikavanjem svakog elementa niza tipa `[a]` pomoću funkcije. Na primer `slikaj (\x -> not x) [True, True, False, False, True]` ima vrednost `[False, False, True, True, False]`. Koji je tip funkcije `slikaj` (iskazan u tipskim promenljivama)? Definišite funkciju `slikaj`.
+
+2. Kreirati algebarski tip podataka `Vektor` koji predstavlja vektor u dvodimenzionalnoj ravni (Koristiti `Float` tip za koordinate). Kreirati funkcije za sabiranje vektora, množenje vektora skalarem, skalarnog množenja vektora i računanja dužine vektora.
+
+3. Kreirati algebarski tip `Valuta` koji može da predstavi neke valute (npr, RSD, EUR, USD) i funkcije koje vrše koverziju između ovih valuta. Kreirati algebarski tip `Smer` koji označava smer u kom se šalje novac (npr. *od* banke ili *ka* banci). Kreirati algebarski tip `Transakcija` koji sadrži količinu (`Float`), zatim valutu i smer. Kreirati jedan proizvoljan niz `Transakcija` od 5 članova ili više. Kreirati funkciju koja računa promenu stanja računa nakon svih izvršenih transakcija.
 
 
 
