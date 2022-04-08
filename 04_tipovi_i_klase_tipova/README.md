@@ -116,7 +116,7 @@ Primenom funkcije `f` tipa `A1 -> A2 -> ... -> An -> B` na vrednost tipa `A1` do
 
 ### Navođenje tipova
 
-Haskel kompajler je u prethodnim primerima ispravno zaključio tip funkcije jer smo bili oprezni da dobro definišemo funkciju. Ako samo malo promenimo definiciju naše funkciije i pokušamo da tu definiciju učitamo u interaktivno okruženje, dobićemo grešku
+Haskel kompajler je u prethodnim primerima ispravno zaključio tip funkcije jer smo bili oprezni da dobro definišemo funkciju. Ako samo malo promenimo definiciju naše funkcije i pokušamo da tu definiciju učitamo u interaktivno okruženje, dobićemo grešku
 
 ```haskell
 uSlovo x
@@ -151,7 +151,7 @@ uSlovo x
 	| x == False = 'N'
 ```
 
-Na ovaj način govorimo GHC kompajleru kog je tipa naša funkcija. U razvojnom okruženju (npr u *Visual Studio Code* editoru sa odgovarajućim Haskel pluginom), ovo značajno može olakšati razvoj programa.
+Na ovaj način govorimo GHC kompajleru kog je tipa naša funkcija. U razvojnom okruženju (npr. u *Visual Studio Code* editoru sa odgovarajućim [Haskel pluginom](https://marketplace.visualstudio.com/items?itemName=haskell.haskell)), ovo značajno može olakšati razvoj programa.
 
 ### Prefiksna i infiksna notacija
 
@@ -186,6 +186,9 @@ True
 > True `nili` False
 False
 ```
+
+Mogućnost lakog definisanja infiksnih funkcija samo utvrđuječinjenicu da je u Haskelu kao funkcionalnom jeziku, pojam funkcije postavljen na prvo mesto.
+
 ## Algebarski tipovi podataka
 
 Već smo uspostavili mnogo analogija između matematičkog pojma *skup* i programerskog pojma *tip*. Na početku kursa smo videli da je sa skupovima moguće vršti neke operacije kao što su presek, unija, razlika, Dekartov proizvod itd... Sada ćemo se upoznati sa dve tipske operacije, operacije koje od tipova prave nove tipove. Te dve operacije će odgovarati operacijama unije i Dekartovog proizvoda. Kao što ćemo videti, postoji izvesna analogija između ovih operacija i operacija sabiranja i množenja prirodnih brojeva, zbog čega ovu oblast nazivamo *algebra tipova*.
@@ -199,18 +202,16 @@ data Temperatura = Temp Int
   deriving Show
 ```
 
-*Za sada samo postavljajte `deriving Show` nakon definicije. Kasnije ćemo objasniti šta nam ova linija omogućava.*
+*Za sada ignorišite `deriving Show` nakon definicije. Ono nam samo omogućava ispis verednosti definisanog tipa. Kasnije ćemo detaljnije objasniti `deriving`.*
 
 Navedenom linijom smo konstruisali novi tip `Temperatura`. Svaka vrednost ovog tipa sadrži samo jednu vrednost tipa `Int`. U gornjem izrazu `Temp` je *konstruktor*. Konstruktori su funkcije uz pomoć kojih konstruišemo vrednosti novog tipa. U našem slučaju, konstruktor `Temp` ima tip `Int -> Temperatura`.
 
-Konstruktori se takođe koriste i za dekonstrukciju tipova. Na primer, ako želimo da konstrušemo funkciju koja nam "oslobađa" `Int` iz tipa `Temperatura`, to možemo učiniti ovako:
+Konstruktori se takođe koriste i za dekonstrukciju tipova. Kako znamo da vrednost tipa `Temperatura` mora biti oblika `(Temp x)`, možemo upotrebiti *pattern-matching* da oslobodimo vrednost `x`:
 
 ```haskell
 uInt :: Temperatura -> Int
 uInt (Temp x) = x
 ```
-
-Kako znamo da vrednost tipa `Temperatura` mora biti oblika `(Temp x)`, možemo upotrebiti *pattern-matching* da oslobodimo vrednost `x`.
 
 ```
 > temperaturaVode = Temp 20
@@ -231,7 +232,7 @@ data Vektor2D = Vektor Float Float
 
 Sada ponovo u funkcijama možemo koristiti *pattern matching*:
 
-```
+```haskell
 zbirVektora :: Vektor -> Vektor -> Vektor
 zbirVekotra (Vektor x y) (Vektor z w) = Vektor (x + z) (w + z)
 ```
@@ -244,6 +245,7 @@ data Osoba = Osoba [Char] Int Bool
 ```
 
 Navedeni primer demonstira da je moguće da tip i konstruktor imaju isto ime (ovo se često koristi u Haskel kodovima).
+
 ### Suma
 
 Suma dva tipa `A` i `B` je tip koji sadrži sve vrednosti koje poseduju tipovi `A` i `B`. Suma tipova odgovara uniji dva skupa stim što se uvek smatra da je ta unija disjunktna.
@@ -267,21 +269,109 @@ daLiJeSlovo (Broj x) = False
 
 Kao i u slučaju proizvoda tipova, moguće je "sabrati" više tipova od jednom. Na primer sledeći tip označava dužinu u različitim mernim jednicama
 
-```
-data Duzina = Metar Float | Milja Float | SvetlosnaGodina Float 
+```haskell
+data Duzina = Metar Float | Milja Float | SvetlosnaSekunda Float
+  deriving Show
 ```
 
+Za tip `Duzina` možemo da definišemo ovakvu funkciju konverzije:
+
+```haskell
+uMetre :: Duzina -> Duzina
+uMetre (Milja x) = Metar (1609.344 * x)
+uMetre (SvetlosnaSekunda x) = Metar (299792458 * x)
+uMetre x = x
+```
+
+```
+> duzinaStaze = Milja 6
+> uMetre duzinaStaze
+Metar 9656.064
+```
 
 ### Jedinični tip
 
+kao sto smo videli, konstrukcija proizvoda tipova ima oblik `Konstruktor T1 T2 T3 ... Tn`, gde su `T1`,... `Tn` neki tipovi. U specijalnom slučaju možemo napraviti tip čiji konstruktor ne uzima nijedna dodatni tip.
 
-### Prazan tip
+```haskell
+data MojTip = MojKonstruktor
+```
+
+U ovom slučaju konstruktor `MojKonstruktor` je funkcija arnosti 0, odnsno konstanta tipa `MojTip`. Drugim rečima tip `MojTip` sadrži samo jednu vrednost a to je `MojKonstruktor`. Zbog toga za `MojTip` kažemo da je *jedniničan tip*.
+
+Ovakva konstrukcija nije mnogo korisna sama po sebi, ali je veoma korisna kada se koristi unutar suma. Na primer, sada lako (i logično) možemo da predstavimo tipove sa konačno mnogo članova:
 
 
-### Bonus: Stepenovanje
+```haskell
+data Pol = Musko | Zensko
+```
 
+```haskell
+data ZnakKarte = Herc | Karo | Tref | Pik
+```
+
+```haskell
+data MojeBoje = Crna | Bela | Crvena | Plava | Zelena | Zuta
+```
+
+*Napomena: Navedeni tipovi nisu jedinični (npr. `ZnakKarte` sadrži 4 vrednosti), ali su dobijeni sumom jedničnih tipova.*
+
+
+Zapravo, u Haskelu postoji jedan 'standardan' jedničan tip `()`. Njegova definicija je 
+
+```haskell
+data () = ()
+```
+
+Ovo je još jedan primer gde konstruktor i tip imaju isto ime.
 
 ### Algebra tipova
+
+Na početku kursa smo istakli dve činjenice 
+
++ Ako su `A` i `B` konačni disjunktni skupovi, tada je `|X ⊔ Y| = |X| + |Y|`. 
++ Ako su `A` i `B` konačni skupovi, tada je `|X × Y| = |X| * |Y|` 
+
+Nije teško uveriti se da ovakve jednakosti važe i za tipove koji imaju konačno mnogo vrednosti. Ovo nagoveštava izvesnu sličnosti između aritmetičkih operacija sabiranja i množenja sa tipskim operacijama sume i proizvoda. Međutim, te sličnosti su mnogo dublje od prostih jednakosti sa kardinalnostima.
+
+Jednakosti sa prirodnim brojevima mogu se često direktno primeniti na tipove. Na primer za prirodne brojeve važi zakon distributivnosti `a * (b + c) = a * b + a * c`. Na jeziku skupova (a samim tim i tipova) navedena jednakost postaje `A × (B ⊔ C) ≅ A × B ⊔ A × C` gde znak `≅` označava da postoji bijekcija između navedenih skupova (ti skupovi nisu *jednaki* ali jesu *ekvivalentni*).
+
+Navedena jednakost se može lako ilustrovati u Haskelu. Konstruićemo na dva načina tip koji predstavlja osobu, i zatim ćemo uspostaviti bijekciju između ovih tipova
+
+```haskell
+-- Tip (B ⊔ C) moramo posebno da definišemo
+data Pol = Musko | Zensko
+-- A × (B ⊔ C)
+data Osoba1 = Osoba1 [Char] Pol
+
+-- A × B ⊔ A × C
+data Osoba2 = MuskaOsoba [Char] | ZenskaOsoba [Char]
+
+konvertuj1 :: Osoba1 -> Osoba2
+kovertuj1 (Osoba1 x Musko) = MuskaOsoba x
+kovertuj1 (Osoba1 x Zensko) = ZenskaOsoba x
+
+konvertuj2 :: Osoba2 -> Osoba1
+konvertuj2 (MuskaOsoba x) = Osoba1 x Musko
+konvertuj2 (ZenskaOsoba x) = Osoba1 x Zensko
+```
+
+U kodu je sve jedno da li koristimo tip `Osoba1` ili tip `Osoba2` za prezentovanje osobe. Bitno je da znamo da ni jedna od ove dve prezentacije nije suštinski bolja od one druge.
+
+Analogije postoje između broja `1` i tipa `()` (ili bilo kog drugog jediničnog tipa). Na primer u aritmetici važi `m * 1 = m`. Na jeziku skupova (i tipova) ta jednakost postaje 
+`A × () ≅ A`. Zaista, množenjem nekog tipa sa jedniničnim tipom, suštinski ne dobijamo novi tip:
+
+```haskell
+data Tip = Tip Int ()
+
+uTip :: Int -> Tip
+uTip x = Tip x
+
+uInt :: Tip -> Int
+uInt (Tip x ()) = x
+```
+
+Ovim je demonstrirano da `Int × () ≅ Int`.
 
 ## Vrste
 
@@ -299,12 +389,10 @@ data Duzina = Metar Float | Milja Float | SvetlosnaGodina Float
 
 ## Zadaci
 
-1. Funkcija `slikaj` prihvata funkciju tipa `a -> b` i jedan niz tipa `[a]`, a vraća niz tipa `[b]` koji je nastao preslikavanjem svakog elementa niza tipa `[a]` pomoću funkcije. Na primer `slikaj (\x -> not x) [True, True, False, False, True]` ima vrednost `[False, False, True, True, False]`. Koji je tip funkcije `slikaj` (iskazan u tipskim promenljivama)? Definišite funkciju `slikaj`.
 
-2. Kreirati algebarski tip podataka `Vektor` koji predstavlja vektor u dvodimenzionalnoj ravni (Koristiti `Float` tip za koordinate). Kreirati funkcije za sabiranje vektora, množenje vektora skalarem, skalarnog množenja vektora i računanja dužine vektora.
+1. Kreirati algebarski tip podataka `Vektor` koji predstavlja vektor u dvodimenzionalnoj ravni (Koristiti `Float` tip za koordinate). Kreirati funkcije za sabiranje vektora, množenje vektora skalarem, skalarnog množenja vektora i računanja dužine vektora.
 
-3. Kreirati algebarski tip `Valuta` koji može da predstavi neke valute (npr, RSD, EUR, USD) i funkcije koje vrše koverziju između ovih valuta. Kreirati algebarski tip `Smer` koji označava smer u kom se šalje novac (npr. *od* banke ili *ka* banci). Kreirati algebarski tip `Transakcija` koji sadrži količinu (`Float`), zatim valutu i smer. Kreirati jedan proizvoljan niz `Transakcija` od 5 članova ili više. Kreirati funkciju koja računa promenu stanja računa nakon svih izvršenih transakcija.
+2. Kreirati algebarski tip `Valuta` koji može da predstavi neke valute (npr, RSD, EUR, USD) i funkcije koje vrše koverziju između ovih valuta. Kreirati algebarski tip `Smer` koji označava smer u kom se šalje novac (npr. *od* banke ili *ka* banci). Kreirati algebarski tip `Transakcija` koji sadrži količinu (`Float`), zatim valutu i smer. Kreirati jedan proizvoljan niz `Transakcija` od 5 članova ili više. Kreirati funkciju koja računa promenu stanja računa nakon svih izvršenih transakcija.
 
-
-
+3. Koji je pandan zakonu komutativnosti `m * n = n * m` na jeziku tipova? Kako bi ste tu jednakost iskazali u Haskelu?
 
