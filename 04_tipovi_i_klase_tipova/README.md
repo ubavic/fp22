@@ -157,18 +157,18 @@ Na ovaj način govorimo GHC kompajleru kog je tipa naša funkcija. U razvojnom o
 
 U matematici primena funkcije na vrednost se označava tako što se ime funkcije napiše ispred te vrednosti koja je postavljena u zagrade (npr. `f(2)`). Slično je i u lambda računu s tim što se zagrade oko argumenta izostavljaju (prethodni primer bi se zapisao `f 2`). Ovaj način zapisivanja funkcija nazivamo *prefiksna* notacija.
 
-Prefiksna notacija se koristi i za funkcije više argumenta, pa se tako piše `f(2, 8.9)` itd... U slučaju funkcija dva argumenta osim prefiksne notacije moguće je primenu funkcija na vrednosti zapisati uz pomoć *infiksna* notacija. U infiksnoj notaciji, ime funkcije se zapisuje između dve vrednosti na koje se primenjuje.
+Prefiksna notacija se koristi i za funkcije više argumenta, pa se tako piše `f(2, 8.9)` itd... U slučaju funkcija dva argumenta osim prefiksne notacije moguće je primenu funkcija na vrednosti zapisati uz pomoć *infiksne* notacija. U infiksnoj notaciji, ime funkcije se zapisuje između dve vrednosti na koje se funkcija primenjuje.
 
 Infiksnu notaciju koristimo svakodnevno. Na primer, operacija sabiranja je funkcija od dva argumenta koju uvek zapisujemo infiksno (`x + y` umesto `+(x, y)`). Slično važi i za ostale aritmetičke operacije.
 
-Haskel dozvoljava infiksni zapis funkcija dva argumentam jedini uslov je da ime funkcije bude sačinjeno od simbola poput `<>+*#@...`. Primer za to su aritmetičke i logičke operacije. U to se možemo lako uveriti:
+Haskel dozvoljava infiksni zapis funkcija dva argumenta. Jedini uslov je da ime funkcije bude sačinjeno od simbola poput `<>+*#@...`. Primer za to su aritmetičke i logičke operacije. U to se možemo lako uveriti:
 
 ```
 > :t (&&)
 (&&) :: Bool -> Bool -> Bool
 ```
 
-U slučaju kada ispitujemo tip "infiksne funkcije" moramo da koristimo zagrade da kompajler dobro parisirao izraz. Zapravo, zagrade služe da bi se od "infiksne funkcije" doobila "prefiksna funkcija". Na primer
+U slučaju kada ispitujemo tip "infiksne funkcije" moramo da koristimo zagrade da bi kompajler dobro parisirao izraz. Zapravo, zagrade služe da bi se od "infiksne funkcije" dobila "prefiksna funkcija". Na primer
 
 ```
 > (+) 2 6
@@ -187,7 +187,7 @@ True
 False
 ```
 
-Mogućnost lakog definisanja infiksnih funkcija samo utvrđuječinjenicu da je u Haskelu kao funkcionalnom jeziku, pojam funkcije postavljen na prvo mesto.
+Mogućnost lakog definisanja infiksnih funkcija samo utvrđuje činjenicu da je u Haskelu kao funkcionalnom jeziku pojam funkcije postavljen na prvo mesto.
 
 ## Algebarski tipovi podataka
 
@@ -202,7 +202,7 @@ data Temperatura = Temp Int
   deriving Show
 ```
 
-*Za sada ignorišite `deriving Show` nakon definicije. Ono nam samo omogućava ispis verednosti definisanog tipa. Kasnije ćemo detaljnije objasniti `deriving`.*
+*Za sada ignorišite `deriving Show` nakon definicije. Ovo nam samo omogućava ispis verednosti definisanog tipa. Kasnije ćemo detaljnije objasniti `deriving`.*
 
 Navedenom linijom smo konstruisali novi tip `Temperatura`. Svaka vrednost ovog tipa sadrži samo jednu vrednost tipa `Int`. U gornjem izrazu `Temp` je *konstruktor*. Konstruktori su funkcije uz pomoć kojih konstruišemo vrednosti novog tipa. U našem slučaju, konstruktor `Temp` ima tip `Int -> Temperatura`.
 
@@ -291,13 +291,13 @@ Metar 9656.064
 
 ### Jedinični tip
 
-kao sto smo videli, konstrukcija proizvoda tipova ima oblik `Konstruktor T1 T2 T3 ... Tn`, gde su `T1`,... `Tn` neki tipovi. U specijalnom slučaju možemo napraviti tip čiji konstruktor ne uzima nijedna dodatni tip.
+kao sto smo videli, konstrukcija proizvoda tipova ima oblik `Konstruktor T1 T2 T3 ... Tn`, gde su `T1`, ... `Tn` neki tipovi. U specijalnom slučaju možemo napraviti tip čiji konstruktor ne uzima nijedan dodatni tip.
 
 ```haskell
 data MojTip = MojKonstruktor
 ```
 
-U ovom slučaju konstruktor `MojKonstruktor` je funkcija arnosti 0, odnsno konstanta tipa `MojTip`. Drugim rečima tip `MojTip` sadrži samo jednu vrednost a to je `MojKonstruktor`. Zbog toga za `MojTip` kažemo da je *jedniničan tip*.
+U ovom slučaju konstruktor `MojKonstruktor` je funkcija arnosti 0, odnsno konstanta tipa `MojTip`. Drugim rečima tip `MojTip` sadrži samo jednu vrednost a to je `MojKonstruktor`. Zbog toga za `MojTip` kažemo da je *jediničan tip*.
 
 Ovakva konstrukcija nije mnogo korisna sama po sebi, ali je veoma korisna kada se koristi unutar suma. Na primer, sada lako (i logično) možemo da predstavimo tipove sa konačno mnogo članova:
 
@@ -317,7 +317,7 @@ data MojeBoje = Crna | Bela | Crvena | Plava | Zelena | Zuta
 *Napomena: Navedeni tipovi nisu jedinični (npr. `ZnakKarte` sadrži 4 vrednosti), ali su dobijeni sumom jedničnih tipova.*
 
 
-Zapravo, u Haskelu postoji jedan 'standardan' jedničan tip `()`. Njegova definicija je 
+Zapravo, u Haskelu postoji jedan 'standardan' jediničan tip `()`. Njegova definicija je 
 
 ```haskell
 data () = ()
@@ -334,7 +334,7 @@ Na početku kursa smo istakli dve činjenice
 
 Nije teško uveriti se da ovakve jednakosti važe i za tipove koji imaju konačno mnogo vrednosti. Ovo nagoveštava izvesnu sličnosti između aritmetičkih operacija sabiranja i množenja sa tipskim operacijama sume i proizvoda. Međutim, te sličnosti su mnogo dublje od prostih jednakosti sa kardinalnostima.
 
-Jednakosti sa prirodnim brojevima mogu se često direktno primeniti na tipove. Na primer za prirodne brojeve važi zakon distributivnosti `a * (b + c) = a * b + a * c`. Na jeziku skupova (a samim tim i tipova) navedena jednakost postaje `A × (B ⊔ C) ≅ A × B ⊔ A × C` gde znak `≅` označava da postoji bijekcija između navedenih skupova (ti skupovi nisu *jednaki* ali jesu *ekvivalentni*).
+Jednakosti sa prirodnim brojevima mogu se često direktno primeniti na tipove. Na primer za prirodne brojeve važi zakon distributivnosti `a * (b + c) = a * b + a * c`. Na jeziku skupova (a samim tim i tipova) navedena jednakost postaje `A × (B ⊔ C) ≅ A × B ⊔ A × C` gde znak `≅` označava da postoji bijekcija između navedenih skupova (ti skupovi nisu *jednaki* ali jesu *izomorfini*).
 
 Navedena jednakost se može lako ilustrovati u Haskelu. Konstruićemo na dva načina tip koji predstavlja osobu, i zatim ćemo uspostaviti bijekciju između ovih tipova
 
@@ -356,10 +356,9 @@ konvertuj2 (MuskaOsoba x) = Osoba1 x Musko
 konvertuj2 (ZenskaOsoba x) = Osoba1 x Zensko
 ```
 
-U kodu je sve jedno da li koristimo tip `Osoba1` ili tip `Osoba2` za prezentovanje osobe. Bitno je da znamo da ni jedna od ove dve prezentacije nije suštinski bolja od one druge.
+Svejedno je da li koristimo tip `Osoba1` ili tip `Osoba2` za prezentovanje osobe. Bitno je da znamo da nijedna od ove dve prezentacije nije suštinski bolja od one druge.
 
-Analogije postoje između broja `1` i tipa `()` (ili bilo kog drugog jediničnog tipa). Na primer u aritmetici važi `m * 1 = m`. Na jeziku skupova (i tipova) ta jednakost postaje 
-`A × () ≅ A`. Zaista, množenjem nekog tipa sa jedniničnim tipom, suštinski ne dobijamo novi tip:
+Analogije postoje između broja `1` i tipa `()` (ili bilo kog drugog jediničnog tipa). Na primer u aritmetici važi `m * 1 = m`. Na jeziku skupova (i tipova) ta jednakost postaje `A × () ≅ A`. Zaista, množenjem nekog tipa sa jediničnim tipom, suštinski ne dobijamo novi tip:
 
 ```haskell
 data Tip = Tip Int ()
