@@ -110,7 +110,7 @@ Funkciju `nili` smo mogli da definišemo i na uređenim parovima tipa `(Bool, Bo
 
 Ovo samo demonstrira činjenicu koju smo već znali, svaka karijevana funkcija može se predstaviti kao funkcija čiji je domen Dekartov proizvod `n` skupova, ali i obrnuto (npr. funkcija tipa `A1 -> A2 -> ... -> An -> B` može se predstaviti kao funkcija `(A1, A2, ..., An) -> B`).
 
-Primetimo jednu očiglednu činjenicu. Primenom (aplikacijom) funkcije tipa `A -> B` na vrednost tipa `A` dobijamo vrednost tipa `B`. Neformalno govoreći, možemo da kažemo da aplikacijom brišemo prvu levu strelicu. Kod karijevanja ovo se takođe dešava.
+Primetimo jednu očiglednu činjenicu. Primenom (aplikacijom) funkcije tipa `A -> B` na vrednost tipa `A` dobijamo vrednost tipa `B`. Neformalno govoreći, možemo da kažemo da aplikacijom brišemo prvu levu strelicu.
 
 Primenom funkcije `f` tipa `A1 -> A2 -> ... -> An -> B` na vrednost tipa `A1` dobijamo novu funkciju tipa `A2 -> A3 -> ... -> An -> B`. Sada novodobijenu funkciju možemo primeniti na vrednost tipa `A2` i time dobiti funkciju tipa `A3 -> ... -> An -> B`. Ovaj postupak se može ponavljati sve dok ne stignemo do vrednosti tipa `B`.
 
@@ -180,14 +180,14 @@ U slučaju kada ispitujemo tip "infiksne funkcije" moramo da koristimo zagrade d
 True
 ```
 
-Često je zgodno učiniti i suprotno, od prefiksne funkcije ad-hoc napraviti infiksnu funkciju. To možemo učiniti tako što ćemo ime funkcije navesti između navodnika \`\`. Na primer, funkciju `nili` možemo ovako koristiti u infiksnom zapisu
+Često je zgodno učiniti i suprotno, od prefiksne funkcije *ad-hoc* napraviti infiksnu funkciju. To možemo učiniti tako što ćemo ime funkcije navesti između navodnika \`\`. Na primer, funkciju `nili` možemo ovako koristiti u infiksnom zapisu
 
 ```
 > True `nili` False
 False
 ```
 
-Mogućnost lakog definisanja infiksnih funkcija samo utvrđuje činjenicu da je u Haskelu kao funkcionalnom jeziku pojam funkcije postavljen na prvo mesto.
+Mogućnost lakog definisanja infiksnih funkcija dodatno utvrđuje činjenicu da je u Haskelu pojam funkcije postavljen na prvo mesto.
 
 ## Algebarski tipovi podataka
 
@@ -234,7 +234,7 @@ Sada ponovo u funkcijama možemo koristiti *pattern matching*:
 
 ```haskell
 zbirVektora :: Vektor -> Vektor -> Vektor
-zbirVekotra (Vektor x y) (Vektor z w) = Vektor (x + z) (w + z)
+zbirVekotra (Vektor x1 y1) (Vektor x2 y2) = Vektor (x1 + x2) (y2 + y2)
 ```
 
 Naravno ne moramo koristiti iste tipove u proizvodu niti ih mora biti samo dva. Sledeći tip prestavlja jednu osobu (njeno ime, godine, i to da li je državljanin Srbije)
@@ -248,7 +248,7 @@ Navedeni primer demonstira da je moguće da tip i konstruktor imaju isto ime (ov
 
 ### Suma
 
-Suma dva tipa `A` i `B` je tip koji sadrži sve vrednosti koje poseduju tipovi `A` i `B`. Suma tipova odgovara uniji dva skupa stim što se uvek smatra da je ta unija disjunktna.
+Suma dva tipa `A` i `B` je tip koji sadrži sve vrednosti koje poseduju tipovi `A` i `B`. Suma tipova odgovara uniji dva skupa s tim što se uvek smatra da je ta unija disjunktna.
 
 Suma tipova se vrši postavljanjem vertikalne crte između tipova. Na primer:
 
@@ -372,9 +372,127 @@ uInt (Tip x ()) = x
 
 Ovim je demonstrirano da `Int × () ≅ Int`.
 
+## Možda tip
+
+Sada ćemo kreirati tip `MoždaBroj` kojim možemo da predstavimo ili jednu celobrojnu vrednost ili izostanak bili kakve smislene vrednosti (nešto poput vrednosti `null` u javaskriptu). Ovaj tip ćemo konstrusati kao 'uniju' tipova `Int` i jediničnog tipa `Nista` (ništa):
+
+```haskell
+data MozdaBroj = SamoBroj Int | Nista 
+```
+
+Ovaj tip je koristan kad god hoćemo da radimo u programu sa nekim vrednostima koje možda čak nisu ni zadate. Na primer, ako očitvamo temperaturu s nekog senzora, onda je dobro to očitavanje predstaviti jednom celobrojnom vrednošću (pretpostavimo da senzor ima rezoluciju od 1°C). Međutim, u nekim situacijama naš senzor ne mora vraćati očitanu tempraturu (usled nekih hardverskih problema, itd...). U tom slučaju treba koristiti specijalnu vrednost koja označava da do očitavanja temperature nije ni došlo. Nezgodno bi bilo koristiti vrednost `0` jer se tada ne mogu razlikovati ispravna očitavanja temerature 0°C od neispravnih.
+
+Sa ovakvim tipom je lako raditi. Na primer ako želimo da računamo apsolutnu razliku dve temperature, možemo napisati ovakvu funkciju
+
+```haskell
+apsolutnaRazlika :: MozdaBroj -> MozdaBroj -> MozdaBroj
+apsolutnaRazlika (SamoBroj x) (SamoBroj y) = SamoBroj abs(x - y)
+apsolutnaRazlika _ _ = Nista
+```
+
+Prethodna fuknkcija će vratiti vrodnost oblika `SamoBroj i` kad god prosledimo dve vrednosti istog oblika. U svim drugim slučajevima, barem jedna od prosleđenih vrednosti će biti `Nista`, i stoga smisla vratiti samo vrednost `Nista`.
+
+*U Haskelu sa `_` označavamo parametre čija nas vrednost ne interesuje. Znak `_` možemo koristiti na više mesta levo od znaka `=` ali ni jednom desno od znaka `=`.*
+
+Slično tipu `MozdaBroj` možemo konstruisati tip `MozdaNiska`:
+
+```haskell
+data MozdaNiska = SamoNiska String | Nista   
+```
+
+Jedan od čestih slučajeva u kom bi ovakav tip bio koristan je predstavljanje korisničkog unosa. Na primer, tipom `MozdaNiska` možemo predstaviti mejl adresu korisnika koja potencijalno nije uneta...
+
+Kao što vidimo, konstrukcija tipa je `MozdaNiska` je u potpunosti analogna konstrukciji tipa `MozdaBroj`. I sličnu konstrukciju možemo ponoviti za bilo koji tip.
+
+Ali, da ne bismo istu konstrukciju ponavljali za isti tip, u Haskelu možemo kreirati tip koji zavisi od nekog drugog tipa:
+
+```haskell
+data Mozda a = Samo a | Nista
+```
+
+U navedenom izrazu, simbol `a` predstavlja proizvoljan tip. U slučaju kada za `a` uzmemo `Int`, dobijamo tip identičan `MoždaBroj` tipu, itd... Vidimo da smo sa jednom linijom obuhvatili konstrukciju svih mogućih "možda tipova".
+
+Primer, od malopre, sada bi izgledao ovako
+
+```haskell
+apsolutnaRazlika :: Mozda Int -> Mozda Int -> Mozda Int
+apsolutnaRazlika (Samo x) (Samo y) = Samo abs(x - y)
+apsolutnaRazlika _ _ = Nista
+```
+
+'Možda tipovi' su veoma korisni u praksi. Zbog toga je u standardnoj Haskell biblioteci definisan tip `Maybe` na već viđen način:
+
+```haskell
+data Maybe a = Just a | Nothing
+```
+
+Mnoge funkcije koriste *maybe* tipove za povratne vrednosti. Već smo se upoznali sa funkcijom `head :: [a] -> a` koja vraća prvi element liste. Međutim, pozivanje ove funkcije nad praznom listom `[]` dovodi do greške koja prekida izvršavanje programa (izuzetak). Zbog toga, na mnogim mestima Haskell programeri će koristiti funkciju `maybeHead :: [a] -> Maybe a` koja vraća prvi element liste "zapakovan" u `Just` ako ta lista nije prazna, a u suprotnom vraća `Nothing`. Za razliku od funkcije `head`, funkcija `maybeHead` je totalna.
+
 ## Vrste
 
-### Maybe
+U prethodnoj sekciji upoznali smo se sa apstraktnim algebarskim tipom podataka
+
+```haskell
+data Maybe a = Just a | Nothing
+```
+
+Na osnovu prethodne definicje, možemo dobiti tipove poput `Maybe Int`, `Maybe Bool`, `Maybe [Char]`, itd... Međutim, sam `Maybe` ne predstavlja tip sam za sebe (ne postoji vrednost tipa `Maybe`). Šta je onda `Maybe`?
+
+Ako se pogledamo bolje, videćemo da `Maybe` od tipova "pravi" nove tipove: od `Int` dobijamo `Maybe Int`, od `[Char]` dobijamo `Maybe [Char]` itd... Prema tome, `Maybe` predstavlja *funkciju nad tipovima* (*tipsku funkciju*).
+
+Možemo se zapitati koji je tip ove funkcije nad tipovima? Da bismo odgovorili na to, prvo moramo definisati tip tipa.
+
+U Haskelu, tip tipova se naziva *vrsta* (eng. *kind*). Svi konkretni tipovi, tj. oni tipovi koji nisu tipske funkcije (npr. `Int`, `Float`, `Char`, `[Char]`), poseduju vrstu `*`. Za razliku od konkretnih tipova, vrsta `* -> *` tipske funkcije `Maybe` označava da `Maybe` uzima jedan konkretan tip i daje drugi konkretan tip.
+
+U interaktivnom okruženju, vrste tipova možemo saznati uz pomoć naredbe `:kind` (skraćeno `:k`). Na primer
+
+``` 
+> :k Int
+Int :: *
+> :k Maybe
+Maybe :: * -> *
+> :k Maybe Int
+Maybe Int :: *
+```
+
+Slično tipu `Maybe`, koristi se i tip `Either`:
+
+```haskell
+data Either a b = Left a | Right b 
+```
+
+Tip `Either` se često koristi za prezentovanje grešaka i "dobrih" vrednosti. Uobičajno se greške predstavljaju uz pomoć konstruktora `Left`, a "dobre" vrednosti uz pomoć konstruktora `Right`.
+
+Tip `Either` je vrste `* -> * -> *` jer uzima dva konkretna tipa:
+
+```
+> :k Either
+Either :: * -> * -> *
+```
+
+Međutim kada `Either` apliciramo na neki konkretan tip, dobijamo tipsku funkciju jedne promenljive:
+
+```
+> :k (Either Int)
+(Either Int) :: * -> *
+```
+
+Dakle, i na nivou tipova imamo pojmove apstrakcije i aplikacije.
+
+Iako priča o vrstama i tipskim funkcijama deluje apstraktno, mi smo se sa tipskim funkcijama susreli na samom početku učenja Haskela. Tipska funkcija `([]) :: * -> *` prevodi tip `a` u tip nizova tog tipa `[a]`. Jedina razlika je u tome što za ovu tipsku funkciju koristimo specijalnu sintaksu (`[a]` a ne `[] a`). Zaista:
+
+```
+> :k ([])
+([]) :: * -> *
+> :k (([]) Int)
+(([]) Int) :: *
+``` 
+
+*Napomena: ne treba mešati tipsku funkciju `[]` sa konstruktorom praznog niza `[]`*
+
+Još jedna tipska funkcija koja se svuda koristi je `(->) :: * -> * -> *`. Funkcija `(->)` primenjena na dva tipa `a` i `b` daje tip svih preslikavanja iz `a` u `b`. Taj tip označavamo upravo sa `a -> b`.
+
+*Posmatrajući sada tip `Maybe` kroz algebru tipova, shvatamo da `Maybe` odgovara funkciji sledbenika `f(x) = x + 1`. Zaista, funkcija `Maybe` konstruiše novi tip tako što na njega dodaje jednu vrednost.*
 
 ## Klase tipova
 
@@ -384,7 +502,7 @@ Ovim je demonstrirano da `Int × () ≅ Int`.
 
 ### Klasa Show
 
-### Klasa Read
+### Klasa Num
 
 ## Zadaci
 

@@ -321,7 +321,7 @@ Uređeni parovi su posebno korisni za predstavljanje koordinata vektora dvodimen
 
 
 ```haskell
-zbirVektora v w = (fst v + fst w, snd v + snf w)
+zbirVektora v w = (fst v + fst w, snd v + snd w)
 ```
 
 ```haskell
@@ -329,7 +329,7 @@ skaliranjeVektora a v = (a * fst w, a * snd w)
 ```
 
 ```haskell
-skalarniProizvod v w = (fst v) * (fst w) + (snd v) * (snf w)
+skalarniProizvod v w = (fst v) * (fst w) + (snd v) * (snd w)
 ```
 
 Uređene trojke, četvorke, itd,n se ređe koriste, te za njih ne postoje funkcije poput `fst` i `snd`. U narednim sekcijama ćemo videti kako možemo konstruisati odgovarajuće funkcije.   
@@ -380,7 +380,7 @@ Na primer, funkciju koja vraća opis jačine zemljotresa na osnovu njegove jači
 
 ```haskell
 opisZemljotresa r
-  | (r >= 0.0) && (r < 4.0) = "Mikro"
+  | (r >= 0.0) && (r < 2.0) = "Mikro"
   | (r >= 2.0) && (r < 4.0) = "Manji"
   | (r >= 4.0) && (r < 5.0) = "Lakši"
   | (r >= 5.0) && (r < 6.0) = "Srednji"
