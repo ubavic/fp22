@@ -516,7 +516,6 @@ nakon koje su navedene definicije funkcija koje propisuje klasa.
 
 Više o klasama tipova naučićemo analizirajući neke poznate klase Haskel jezika.
 
-
 *Napomena: Klasa tipova nema nikakve veze sa pojmom klase u objektno orijentisanim jezicima. Klasa tipova u Haskel jeziku približno odgovara pojmu interfejsa u Javi.*
 
 ### Klasa `Eq`
@@ -569,7 +568,6 @@ class Eq a where
 ```
 
 U prethodinm linijama, vidimo da klasa `Eq` podrazumeva dve funkcije. Svaka od te dve funkcije se može izvesti preko one druge, i u samoj definiciji klase `Eq` su navedena ta izvođenja. Međutim, da se ne bismo vrteli u krug sa definicijama, svaka instanca `Eq` klase mora sadržati barem jednu definiciju funkcija `==` i `\=`. Na primer, za tip `Pol` dovoljno je napisati sledeće
-
 
 ```haskell
 instance Eq Pol where
@@ -639,21 +637,14 @@ class Num a => Fractional a where
   recip :: a -> a
 ```
 
-*recip je funkcija koja dodljuje broj njegovu recipročnu vrednost*
+*`recip` je funkcija koja dodljuje broj njegovu recipročnu vrednost*
 
 Razlika klase `Fractional` u odnosu na klasu `Num` je ta što tipovi klase `Fractional` dozvoljavaju deljenje. Definicije klasa `Num` i `Fractional` približno odgovaraju definicijama *prstena* i *polja*.
 
-### Klasa `Functor`
-
-
-
-
 ## Zadaci
-
 
 1. Kreirati algebarski tip podataka `Vektor` koji predstavlja vektor u dvodimenzionalnoj ravni (Koristiti `Float` tip za koordinate). Kreirati funkcije za sabiranje vektora, množenje vektora skalarem, skalarnog množenja vektora i računanja dužine vektora.
 
 2. Kreirati algebarski tip `Valuta` koji može da predstavi neke valute (npr, RSD, EUR, USD) i funkcije koje vrše koverziju između ovih valuta. Kreirati algebarski tip `Smer` koji označava smer u kom se šalje novac (npr. *od* banke ili *ka* banci). Kreirati algebarski tip `Transakcija` koji sadrži količinu (`Float`), zatim valutu i smer. Kreirati jedan proizvoljan niz `Transakcija` od 5 članova ili više. Kreirati funkciju koja računa promenu stanja računa nakon svih izvršenih transakcija.
 
 3. Koji je pandan zakonu komutativnosti `m * n = n * m` na jeziku tipova? Kako bi ste tu jednakost iskazali u Haskelu?
-

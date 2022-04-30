@@ -8,6 +8,11 @@ U ovom repozitorijumu se nalazi se materijal za časove funkcionalnog programira
  2. [Lambda račun](./02_lambda_racun/)
  3. [Osnove Haskela](./03_osnove_haskela/)
  4. [Tipovi i klase tipova](./04_tipovi_i_klase_tipova/)
+ 5. [Rekurzivni tipovi podataka](./05_rekurzivni_tipovi_podataka/)
+ 6. Funktori
+ 7. Funkcionalno programiranje u Javaskriptu
+ 8. Monade
+
 
 ## Autor
 
