@@ -1,0 +1,1 @@
+# Funktori i monade

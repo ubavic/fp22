@@ -1,0 +1,2 @@
+# Haskel i lambda račun
+
