@@ -374,15 +374,15 @@ Ovim je demonstrirano da `Int × () ≅ Int`.
 
 ## Možda tip
 
-Sada ćemo kreirati tip `MoždaBroj` kojim možemo da predstavimo ili jednu celobrojnu vrednost ili izostanak bili kakve smislene vrednosti (nešto poput vrednosti `null` u javaskriptu). Ovaj tip ćemo konstrusati kao 'uniju' tipova `Int` i jediničnog tipa `Nista` (ništa):
+Sada ćemo kreirati tip `MoždaBroj` kojim možemo da predstavimo ili jednu realnu vrednost ili izostanak bili kakve smislene vrednosti (nešto poput vrednosti `null` u javaskriptu). Ovaj tip ćemo konstrusati kao 'uniju' tipova `Float` i jediničnog tipa `Nista` (ništa):
 
 ```haskell
-data MozdaBroj = SamoBroj Int | Nista 
+data MozdaBroj = SamoBroj Float | Nista 
 ```
 
-Ovaj tip je koristan kad god hoćemo da radimo u programu sa nekim vrednostima koje možda čak nisu ni zadate. Na primer, ako očitvamo temperaturu s nekog senzora, onda je dobro to očitavanje predstaviti jednom celobrojnom vrednošću (pretpostavimo da senzor ima rezoluciju od 1°C). Međutim, u nekim situacijama naš senzor ne mora vraćati očitanu tempraturu (usled nekih hardverskih problema, itd...). U tom slučaju treba koristiti specijalnu vrednost koja označava da do očitavanja temperature nije ni došlo. Nezgodno bi bilo koristiti vrednost `0` jer se tada ne mogu razlikovati ispravna očitavanja temerature 0°C od neispravnih.
+Ovaj tip je koristan kad god hoćemo da radimo u programu sa nekim vrednostima koje možda čak nisu ni zadate. Na primer, ako očitvamo temperaturu s nekog senzora, onda je dobro to očitavanje predstaviti realnom vrednošću. Međutim, u nekim situacijama naš senzor ne mora vraćati očitanu tempraturu (usled nekih hardverskih problema, itd...), i tada treba koristiti specijalnu vrednost koja označava da do očitavanja temperature nije ni došlo. Nezgodno bi bilo koristiti vrednost `0` jer se tada ne mogu razlikovati ispravna očitavanja temerature 0°C od neispravnih (ovo važi i za bilo koji drugi realan broj).
 
-Sa ovakvim tipom je lako raditi. Na primer ako želimo da računamo apsolutnu razliku dve temperature, možemo napisati ovakvu funkciju
+Sa "možda" tipom je lako raditi. Na primer ako želimo da računamo apsolutnu razliku dve temperature, možemo napisati ovakvu funkciju
 
 ```haskell
 apsolutnaRazlika :: MozdaBroj -> MozdaBroj -> MozdaBroj
@@ -400,7 +400,7 @@ Slično tipu `MozdaBroj` možemo konstruisati tip `MozdaNiska`:
 data MozdaNiska = SamoNiska String | Nista   
 ```
 
-Jedan od čestih slučajeva u kom bi ovakav tip bio koristan je predstavljanje korisničkog unosa. Na primer, tipom `MozdaNiska` možemo predstaviti mejl adresu korisnika koja potencijalno nije uneta...
+Jedan od čestih slučajeva u kom bi ovakav tip bio koristan je predstavljanje korisničkog unosa. Na primer, tipom `MozdaNiska` možemo predstaviti adresu korisnika koja potencijalno nije uneta...
 
 Kao što vidimo, konstrukcija tipa je `MozdaNiska` je u potpunosti analogna konstrukciji tipa `MozdaBroj`. I sličnu konstrukciju možemo ponoviti za bilo koji tip.
 
@@ -410,23 +410,23 @@ Ali, da ne bismo istu konstrukciju ponavljali za isti tip, u Haskelu možemo kre
 data Mozda a = Samo a | Nista
 ```
 
-U navedenom izrazu, simbol `a` predstavlja proizvoljan tip. U slučaju kada za `a` uzmemo `Int`, dobijamo tip identičan `MoždaBroj` tipu, itd... Vidimo da smo sa jednom linijom obuhvatili konstrukciju svih mogućih "možda tipova".
+U navedenom izrazu, simbol `a` predstavlja proizvoljan tip. U slučaju kada za `a` uzmemo `Float` dobijamo tip identičan `MoždaBroj` tipu, itd... Vidimo da smo sa jednom linijom obuhvatili konstrukciju svih mogućih "moždatipova".
 
 Primer, od malopre, sada bi izgledao ovako
 
 ```haskell
-apsolutnaRazlika :: Mozda Int -> Mozda Int -> Mozda Int
+apsolutnaRazlika :: Mozda Float -> Mozda Float -> Mozda Float
 apsolutnaRazlika (Samo x) (Samo y) = Samo abs(x - y)
 apsolutnaRazlika _ _ = Nista
 ```
 
-'Možda tipovi' su veoma korisni u praksi. Zbog toga je u standardnoj Haskell biblioteci definisan tip `Maybe` na već viđen način:
+"Možda tipovi" su veoma korisni u praksi, zbog čega je u standardnoj Haskell biblioteci definisan tip `Maybe` na već viđen način:
 
 ```haskell
 data Maybe a = Just a | Nothing
 ```
 
-Mnoge funkcije koriste *maybe* tipove za povratne vrednosti. Već smo se upoznali sa funkcijom `head :: [a] -> a` koja vraća prvi element liste. Međutim, pozivanje ove funkcije nad praznom listom `[]` dovodi do greške koja prekida izvršavanje programa (izuzetak). Zbog toga, na mnogim mestima Haskell programeri će koristiti funkciju `maybeHead :: [a] -> Maybe a` koja vraća prvi element liste "zapakovan" u `Just` ako ta lista nije prazna, a u suprotnom vraća `Nothing`. Za razliku od funkcije `head`, funkcija `maybeHead` je totalna.
+Mnoge funkcije koriste *maybe* tipove za povratne vrednosti. Već smo se upoznali sa funkcijom `head :: [a] -> a` koja vraća prvi element liste. Međutim, pozivanje ove funkcije nad praznom listom `[]` dovodi do greške koja prekida izvršavanje programa (izuzetak). Zbog toga, često Haskel programeri koriste funkciju `maybeHead :: [a] -> Maybe a` koja vraća prvi element liste "zapakovan" u `Just` ako ta lista nije prazna, a u suprotnom `Nothing`. Za razliku od funkcije `head`, funkcija `maybeHead` je totalna.
 
 ## Vrste
 
@@ -438,7 +438,7 @@ data Maybe a = Just a | Nothing
 
 Na osnovu prethodne definicje, možemo dobiti tipove poput `Maybe Int`, `Maybe Bool`, `Maybe [Char]`, itd... Međutim, sam `Maybe` ne predstavlja tip sam za sebe (ne postoji vrednost tipa `Maybe`). Šta je onda `Maybe`?
 
-Ako se pogledamo bolje, videćemo da `Maybe` od tipova "pravi" nove tipove: od `Int` dobijamo `Maybe Int`, od `[Char]` dobijamo `Maybe [Char]` itd... Prema tome, `Maybe` predstavlja *funkciju nad tipovima* (*tipsku funkciju*).
+Ako pogledamo bolje, videćemo da `Maybe` od tipova "pravi" nove tipove: od `Int` dobijamo `Maybe Int`, od `[Char]` dobijamo `Maybe [Char]` itd... Prema tome, `Maybe` predstavlja *funkciju nad tipovima* (*tipsku funkciju*). Domen kodomen funkcije nad tipovima je kolekcija svih Haskel tipova. 
 
 Možemo se zapitati koji je tip ove funkcije nad tipovima? Da bismo odgovorili na to, prvo moramo definisati tip tipa.
 
@@ -477,7 +477,7 @@ Međutim kada `Either` apliciramo na neki konkretan tip, dobijamo tipsku funkcij
 (Either Int) :: * -> *
 ```
 
-Dakle, i na nivou tipova imamo pojmove apstrakcije i aplikacije.
+Dakle, i na nivou tipova imamo pojmove apstrakcije, aplikacije i karijevanja.
 
 Iako priča o vrstama i tipskim funkcijama deluje apstraktno, mi smo se sa tipskim funkcijama susreli na samom početku učenja Haskela. Tipska funkcija `([]) :: * -> *` prevodi tip `a` u tip nizova tog tipa `[a]`. Jedina razlika je u tome što za ovu tipsku funkciju koristimo specijalnu sintaksu (`[a]` a ne `[] a`). Zaista:
 
@@ -594,9 +594,7 @@ class (Eq a) => Ord a  where
 
 Klasa propisuje uobičajne relacije (zapravo funkcije) za poređenje elementa kao i dve binarne funkicje `min` i `max` koje respektivno vraćaju manji odnosno veći od argumenata.
 
-
 U ovom primeru vidimo nešto drugačiju definiciju klase. Umesto sa `class Ord a where` definicija klase započinje sa `class (Eq a) => Ord a where`. Izraz `(Eq a) =>` *klasno ograničenje*. Klasnim ograničenjima garantujemo da će neki tip pripadati nekoj drugoj klasi pre nego što ga pridružimo ovoj klasi. 
-
 
 U slučaju klase `Ord` ima smisla zahtevati da tip već pripada klasi `Eq` jer pojam jednakosti vrednosti neophodan za razlikovanje funkcija `>` i `>=`.
 
