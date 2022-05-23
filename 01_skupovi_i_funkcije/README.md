@@ -6,7 +6,7 @@ Svakom programeru je jasna povezanost matematike i programiranja. U funkcionalno
 
 Pojam *skupa* je jedan od najosnovnijih pojmova matematike. Štaviše, ovaj pojam je prisutan i u svakodnevnom životu i njime označavamo kolekciju objekata. Ipak, *teorija skupova*, matematička oblast koja se bavi skupovima, je mlada oblast matematike. Može se reći da ova teorija nastala krajem XIX veka u radovima [Georga Kantora](https://en.wikipedia.org/wiki/Georg_Cantor) i [Johana Dirihlea](https://en.wikipedia.org/wiki/Peter_Gustav_Lejeune_Dirichlet). Kantorova teorija skupova, kako je danas nazivamo, je brzo našla primenu u oblasti matematičke analize. Uz pomoć teorije skupova, opisana su neka fundamentalna svojstva skupa realnih brojeva, i uspostavljena je hijerarhija između različitih beskonačnosti.
 
-U tadašnjoj teoriji skupova, mnoge stvari su uzimane zdravo-za-gotovo. Tako je, na primer, Kantorova teorija, dozvoljavala definisanje skupova iskazima poput sledećeg *`x` pripada skupu `S` ako i samo ako važi `P(x)`.*
+U tadašnjoj teoriji skupova, mnoge stvari su uzimane zdravo-za-gotovo. Tako je, na primer, Kantorova teorija, dozvoljavala definisanje skupova iskazima poput sledećeg *`x` pripada skupu $S$ ako i samo ako važi $P(x)$.*
 
 Iako na prvi pogled ovakva definicija (određenog) skupa deluje logično, ona može dovesti do paradoksa. Jedan takav paradoks je otkrio [Bertrand Rasel](https://en.wikipedia.org/wiki/Bertrand_Russell) 1901. godine kada je definisao skup `S` kao skup svih skupova koji ne sadrže sami sebe, odnosno važi *`x` pripada skupu `S` ako i samo ako `x` ne pripada `x`*. Ako se zapitamo da li skup `S` pripada sam sebi, doći ćemo do kontradiktornih odgovora: po definiciji skupa `S` važi da `S` pripada skupu `S`, ako i samo ako skup `S` ne pripada skupu `S`.
 
@@ -35,7 +35,7 @@ Funkcija je jedan od najosnovnijih pojmova matematike, a kao što ćemo i videti
 
 Formalno, pojam funkcije u matematici se definiše preko pojma relacije, koji se definiše preko pojma Dekartovog proizvoda skupova. Ovakav pristup preko teorije skupova za nas nije od velike važnosti, te ćemo dati naivnu ali pragmatičnu definiciju: *Funkcija je pravilo po kom se svakom elementu jednog skupa (kog nazivamo domen funkcije), pridružuje jedinstven element drugog skupa (kog nazivamo kodomen funkcije)*.
 
-Dakle, funkcija je zapravo pridruživanje elemenata domena elementima kodomena. Činjenicu da neka funkcija `f` ima domen `X` i kodomen `Y` zapisujemo kao `f: X → Y` i za samu funkciju `f` kažemo da je *`f` funkcija iz `X` u `Y`*. Izraz  `X → Y` nazivamo *tip* funkcije. Činjenicu da funkcija `f` pridržužuje element `y` elementu `x` zapsiujemo kao `f(x) = y`.
+Dakle, funkcija je zapravo pridruživanje elemenata domena elementima kodomena. Činjenicu da neka funkcija `f` ima domen `X` i kodomen `Y` zapisujemo kao `f: X → Y` i za samu funkciju $f$ kažemo da je *`f` funkcija iz `X` u `Y`*. Izraz  `X → Y` nazivamo *tip* funkcije. Činjenicu da funkcija `f` pridržužuje element `y` elementu `x` zapsiujemo kao `f(x) = y`.
 
 **Primeri**:
 
@@ -53,7 +53,7 @@ abs x = ⎨
         ⎩ -x, ako je x < 0
 ```
 
-Kad god imamo funkcije `f: X → Y` i `g: Y → Z`, tada možemo konstruisati novu funkciju `h: X → Z` *kompozicijom* funkcija `f` i `g` sledećim izrazom `h(x) = g(f(x))`. Činjenicu da je `h` kompozicija funkcija `f` i `g` označavamo sa `h = g ∘ f`.
+Kad god imamo funkcije $f: X \to Y$ i $g: Y \to Z$, tada možemo konstruisati novu funkciju `h: X → Z` *kompozicijom* funkcija `f` i `g` sledećim izrazom `h(x) = g(f(x))`. Činjenicu da je `h` kompozicija funkcija `f` i `g` označavamo sa `h = g ∘ f`.
 
 Kompozicija `g ∘ f` ima smisla samo ako je kodomen funkcije `f` jednak domenu funkcije `g`. Ali čak i kada `g ∘ f` ima smisla ne mora važiti `g ∘ f = f ∘ g`. Ipak, za identičku funkciju `id` važi `id ∘ f = f = f ∘ id`.
 
